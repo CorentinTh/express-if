@@ -1,9 +1,9 @@
-/**
+/*
  * EchoClient
  * Example of a TCP client
  * Date: 10/01/04
  * Authors:
- */
+*/
 
 import java.io.*;
 import java.net.*;

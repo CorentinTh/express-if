@@ -1,9 +1,9 @@
-/***
+/*
  * EchoServer
  * Example of a TCP server
  * Date: 10/01/04
  * Authors:
- */
+*/
 
 import java.io.*;
 import java.net.*;
@@ -15,9 +15,9 @@ public class EchoServer {
      *
      * @param clientSocket the client socket
      **/
-    static void doService(Socket clientSocket) {
+    private static void doService(Socket clientSocket) {
         try {
-            BufferedReader socIn = null;
+            BufferedReader socIn;
             socIn = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
             PrintStream socOut = new PrintStream(clientSocket.getOutputStream());
@@ -30,7 +30,7 @@ public class EchoServer {
         }
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         ServerSocket listenSocket;
         int port = 4242;
 
