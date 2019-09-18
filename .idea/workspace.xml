@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5bced48-62c6-400d-be91-5c03a968d508" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -102,7 +101,7 @@
       <workItem from="1568660313157" duration="4079000" />
       <workItem from="1568737673873" duration="85000" />
       <workItem from="1568746231721" duration="730000" />
-      <workItem from="1568785804673" duration="3018000" />
+      <workItem from="1568785804673" duration="3111000" />
     </task>
     <servers />
   </component>
