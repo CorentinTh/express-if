@@ -10,11 +10,17 @@ loginForm.onsubmit = (e) => {
 
     const firstname = document.getElementById('firstname').value;
     const lastname = document.getElementById('lastname').value;
+    const url = document.getElementById('host').value;
 
     console.log(firstname);
     console.log(lastname);
+    console.log(url);
 
-    console.log(window.javaConnector.onLogin(firstname, lastname));
+    const [host, port] = url.split(':');
+    console.log(host);
+    console.log(port);
+
+    console.log(window.javaConnector.onLogin(firstname, lastname, host, parseInt(port, 10)));
 
     return false;
 };

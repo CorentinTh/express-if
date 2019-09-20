@@ -10,10 +10,7 @@ public class Client implements GUI.Listener {
     }
 
     @Override
-    public String onLogin(String firstname, String lastname) {
-        System.out.println("Firstname: " + firstname);
-        System.out.println("Lastname: " + lastname);
-
-        return "ok";
+    public String onInit(String firstname, String lastname, String host, int port) {
+        return null;
     }
 }

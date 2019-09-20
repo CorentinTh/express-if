@@ -14,7 +14,6 @@ import netscape.javascript.JSObject;
 
 
 public class GUI extends Application {
-    private Scene scene;
     private JSObject javascriptConnector;
     private Listener listener;
 
@@ -41,7 +40,7 @@ public class GUI extends Application {
         window.setMember("javaConnector", listener);
         window.setMember("console", console);
 
-        scene = new Scene(webView);
+        Scene scene = new Scene(webView);
         stage.setScene(scene);
         stage.show();
     }
@@ -53,7 +52,7 @@ public class GUI extends Application {
     }
 
     public interface Listener {
-        String onLogin(String firstname, String lastname);
+        String onInit(String firstname, String lastname, String host, int port);
     }
 
     public static void main(String[] args) {
