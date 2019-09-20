@@ -1,4 +1,4 @@
-# PR-CHAT
+# express-if
 School project @INSA-Lyon.
 
 ## What is it ?
