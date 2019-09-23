@@ -20,7 +20,7 @@ loginForm.onsubmit = (e) => {
     console.log(host);
     console.log(port);
 
-    console.log(window.javaConnector.onLogin(firstname, lastname, host, parseInt(port, 10)));
+    console.log(window.javaConnector.onInit(firstname, lastname, host, parseInt(port, 10)));
 
     return false;
 };

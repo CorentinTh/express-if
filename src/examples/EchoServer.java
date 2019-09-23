@@ -1,5 +1,5 @@
-/*
- * EchoServer
+package examples;/*
+ * examples.EchoServer
  * Example of a TCP server
  * Date: 10/01/04
  * Authors:
@@ -24,9 +24,10 @@ public class EchoServer {
             while (true) {
                 String line = socIn.readLine();
                 socOut.println(line);
+                System.out.println(line);
             }
         } catch (Exception e) {
-            System.err.println("Error in EchoServer:" + e);
+            System.err.println("Error in examples.EchoServer:" + e);
         }
     }
 
@@ -48,7 +49,7 @@ public class EchoServer {
                 doService(clientSocket);
             }
         } catch (Exception e) {
-            System.err.println("Error in EchoServer:" + e);
+            System.err.println("Error in examples.EchoServer:" + e);
         }
     }
 }
