@@ -1,13 +1,20 @@
-package server;
+package expressif.server;
 
-import core.Message;
+import expressif.common.Message;
 
-import java.net.Socket;
 import java.util.List;
 
 public class Room {
     private String name;
     private List<Client> clients;
+
+    public Room(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public void sendMessage(Message message) {
         sendData("new-message", "test");
@@ -15,12 +22,12 @@ public class Room {
 
     public void joinRoom(Client client) {
         clients.add(client);
-        sendData("new-client", "tes2");
+        sendData("new-expressif.client", "tes2");
     }
 
     public void leaveRoom(Client client) {
         clients.remove(client);
-        sendData("remove-client", "tes3");
+        sendData("remove-expressif.client", "tes3");
     }
 
     private void sendData(String topic, String payload) {

@@ -21,6 +21,7 @@ loginForm.onsubmit = (e) => {
     console.log(port);
 
     console.log(window.javaConnector.onInit(firstname, lastname, host, parseInt(port, 10)));
+    displayView(2);
 
     return false;
 };
@@ -31,4 +32,4 @@ function displayView(id) {
     view3.className = 'pos' + (3 - id);
 }
 
-// displayView(2)
+displayView(3);

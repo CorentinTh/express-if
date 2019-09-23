@@ -1,4 +1,4 @@
-package core;
+package expressif.common;
 
 public interface Message {
 
