@@ -11,30 +11,15 @@ public class Client {
     private String pseudo;
     private BufferedReader socIn;
     private PrintStream socOut;
-    private ClientListener listener;
 
-    public Client(Socket socket, ClientListener listener) throws IOException {
+    public Client(Socket socket) throws IOException {
         this.socket = socket;
-        this.listener = listener;
         this.socIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.socOut = new PrintStream(socket.getOutputStream());
-
-
-        while (true) {
-            String line = socIn.readLine();
-            System.out.println("[Client] " + line);
-        }
     }
 
     public void sendData(String topic, String payload) {
         socOut.println(topic + " - " + payload);
     }
 
-    public interface ClientListener {
-        void onJoinRoom(String room);
-
-        void onLeaveRoom();
-
-        void onNewMessage();
-    }
 }

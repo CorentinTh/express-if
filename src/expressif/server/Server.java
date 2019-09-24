@@ -23,9 +23,11 @@ public class Server {
 
             while (true) {
                 Socket clientSocket = listenSocket.accept();
+                Client client = new Client(clientSocket);
+
                 System.out.println("New connexion:" + clientSocket.getInetAddress());
 
-                ReceptionThread ct = new ReceptionThread(clientSocket);
+                ReceptionThreadServer ct = new ReceptionThreadServer(client, rooms);
                 ct.start();
             }
         } catch (Exception e) {

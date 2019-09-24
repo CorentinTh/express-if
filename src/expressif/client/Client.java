@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import static javafx.application.Application.launch;
 
 public class Client implements GUI.Listener {
-    ReceptionThread socketThread;
+    ReceptionThreadClient socketThread;
     GUI.Actions guiActions;
     Socket socket;
 
@@ -24,7 +24,7 @@ public class Client implements GUI.Listener {
         try {
             socket = new Socket(host, port);
 
-            socketThread = new ReceptionThread(this);
+            socketThread = new ReceptionThreadClient(this);
             socketThread.start();
         } catch (UnknownHostException e) {
             e.printStackTrace();
