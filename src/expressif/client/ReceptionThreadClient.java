@@ -4,10 +4,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ReceptionThread extends Thread{
+public class ReceptionThreadClient extends Thread{
     private final Client client;
 
-    public ReceptionThread(Client client) {
+    public ReceptionThreadClient(Client client) {
         this.client = client;
     }
 
