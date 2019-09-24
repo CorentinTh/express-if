@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="milligram.min.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div id="view1" class="pos0">
+    <div class="page-wrapper">
+        <div class="panel ">
+            <div class="login-form-wrapper">
+                <h3>Express'IF</h3>
+                <div class="subtitle">La meilleur application de chat disponnible à l'INSA</div>
+                <form id="login-form">
+                    <input type="text" placeholder="Nom" required name="firstname" id="firstname">
+                    <input type="text" placeholder="Prénom" required name="lastname" id="lastname">
+                    <input type="text" placeholder="Server hôte" required name="host" id="host" value="127.0.0.1:4242">
+                    <button type="submit">Rejoindre</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="view2" class="pos1">
+    <div class="page-wrapper">
+
+        <div class="left-panel">
+            <img src="chat.svg" alt="">
+        </div>
+        <div class="right-panel">
+            <h3>Liste des salons</h3>
+            <div class="rooms-list">
+                <div class="room">
+                    <div class="img"><img src="chat.svg" alt=""></div>
+                    <div>
+                        <div class="name">room 1</div>
+                        <div class="meta">4 persons</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="view3" class="pos2">
+    <div class="menu">
+        <div class="leave-room"><i class="fa fa-arrow-left"></i></div>
+    </div>
+    <div class="users">
+        .u
+    </div>
+    <div class="chat">
+        <div class="name">Room 1</div>
+        <div class="message-list">
+            <div class="message">
+                <div class="user"><img src="https://api.adorable.io/avatars/285/fdssdds.png" alt=""></div>
+                <div class="content">qsdqsd</div>
+                <div class="date">05:56</div>
+            </div>
+        </div>
+
+        <div class="text-area">
+            <div class="button-input">
+                <input type="text" placeholder="Nouveau message ...">
+                <button><i class="fa fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="main.js"></script>
+<!--https://miro.medium.com/max/1600/1*DSH66RN5DA5UQdZ2xE2I-g.png-->
+</body>
+</html>

@@ -1,4 +1,4 @@
-package server;
+package expressif.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,16 +19,22 @@ public class Client {
         this.socIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.socOut = new PrintStream(socket.getOutputStream());
 
-        listener.onJoinRoom("sqdqsd");
+
+        while (true) {
+            String line = socIn.readLine();
+            System.out.println("[Client] " + line);
+        }
     }
 
     public void sendData(String topic, String payload) {
         socOut.println(topic + " - " + payload);
     }
 
-    public interface ClientListener{
+    public interface ClientListener {
         void onJoinRoom(String room);
+
         void onLeaveRoom();
+
         void onNewMessage();
     }
 }
