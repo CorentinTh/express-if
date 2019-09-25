@@ -1,6 +1,6 @@
 package expressif.server;
 
-import expressif.common.Message;
+import expressif.common.Payload;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,28 +17,17 @@ public class Room {
         return name;
     }
 
-    public void sendMessage(Message message) {
-        // TODO
-        sendData("new-message", "test");
-    }
-
     public void joinRoom(Client client) {
         clients.add(client);
-
-        //tODO
-        sendData("new-expressif.client", "tes2");
     }
 
     public void leaveRoom(Client client) {
         clients.remove(client);
-
-        //TODO
-        sendData("remove-expressif.client", "tes3");
     }
 
-    private void sendData(String topic, String payload) {
+    public void sendData(Payload payload) {
         for (Client client : clients) {
-            client.sendData(topic, payload);
+            client.sendData(payload);
         }
     }
 }

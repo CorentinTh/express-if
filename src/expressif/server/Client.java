@@ -1,25 +1,63 @@
 package expressif.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import expressif.common.Payload;
 
 public class Client {
     private Socket socket;
     private String pseudo;
-    private BufferedReader socIn;
-    private PrintStream socOut;
+    private ObjectInputStream socIn;
+    private ObjectOutputStream socOut;
 
     public Client(Socket socket) throws IOException {
         this.socket = socket;
-        this.socIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.socOut = new PrintStream(socket.getOutputStream());
+        this.socOut = new ObjectOutputStream(socket.getOutputStream());
     }
 
-    public void sendData(String topic, String payload) {
-        socOut.println(topic + " - " + payload);
+    public void sendData(Payload payload) {
+        try {
+			socOut.writeObject(payload);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
     }
+
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
+	public String getPseudo() {
+		return pseudo;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
+
+	public ObjectInputStream getSocIn() {
+		return socIn;
+	}
+
+	public void setSocIn(ObjectInputStream socIn) {
+		this.socIn = socIn;
+	}
+
+	public ObjectOutputStream getSocOut() {
+		return socOut;
+	}
+
+	public void ObjectOutputStream(ObjectOutputStream socOut) {
+		this.socOut = socOut;
+	}
+    
+    
 
 }
