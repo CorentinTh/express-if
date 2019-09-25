@@ -1,6 +1,7 @@
 package expressif.client;
 
 import expressif.common.Payload;
+import expressif.common.RoomList;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -21,9 +22,12 @@ public class ReceptionThreadClient extends Thread {
             while (true) {
                 Payload payload = (Payload) inputStream.readObject();
 
-                switch (payload.getTopic()){
+                System.out.println("[new payload] " + payload.getTopic().toString() + " " + payload.getContent());
+
+                switch (payload.getTopic()) {
                     case LIST_ROOM:
-                        //payload.getContent();
+                        RoomList roomList = (RoomList) payload.getContent();
+                        client.setRooms(roomList);
                         break;
                     default:
                         break;

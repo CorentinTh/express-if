@@ -1,15 +1,14 @@
 package expressif.client;
 
+import expressif.common.RoomList;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import static javafx.application.Application.launch;
-
 public class Client implements GUI.Listener {
-    ReceptionThreadClient socketThread;
-    GUI.Actions guiActions;
-    Socket socket;
+    private GUI.Actions guiActions;
+    private Socket socket;
 
     public Socket getSocket() {
         return socket;
@@ -18,13 +17,13 @@ public class Client implements GUI.Listener {
     public Client() {
     }
 
-    private void setupConnection(String host, int port){
+    private void setupConnection(String host, int port) {
         try {
             socket = new Socket(host, port);
 
-            socketThread = new ReceptionThreadClient(this);
-            socketThread.start();
+            new ReceptionThreadClient(this).start();
         } catch (UnknownHostException e) {
+            System.out.println("Unknown host");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,6 +35,8 @@ public class Client implements GUI.Listener {
         setupConnection(host, port);
 
         // TODO: emit
+        this.guiActions.displayView(2);
+
         return "ok";
     }
 
@@ -52,7 +53,11 @@ public class Client implements GUI.Listener {
         this.guiActions = actions;
     }
 
-    void emit(){
+    void emit() {
 
+    }
+
+    public void setRooms(RoomList roomList) {
+        this.guiActions.addRoomList(roomList);
     }
 }

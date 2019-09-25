@@ -1,11 +1,12 @@
 const view1 = document.getElementById('view1');
 const view2 = document.getElementById('view2');
 const view3 = document.getElementById('view3');
-const loginForm = document.getElementById('login-form');
+const loginFormEl = document.getElementById('login-form');
+const roomListEl = document.getElementById('login-form');
 
 console.log('JS working');
 
-loginForm.onsubmit = (e) => {
+loginFormEl.onsubmit = (e) => {
     e.preventDefault();
 
     const firstname = document.getElementById('firstname').value;
@@ -37,5 +38,17 @@ function joinRoom(roomName){
     console.log(window.javaConnector.onJoinRoom(roomName));
 }
 
+function addRoomList(roomList){
+    roomListEl.insertAdjacentHTML('afterend', `
+                <div class="room" onclick="joinRoom('room-1')">
+                    <div class="img"><img src="chat.svg" alt=""></div>
+                    <div>
+                        <div class="name">room 1</div>
+                        <div class="meta">4 persons</div>
+                    </div>
+                </div>`);
+
+}
+
 console.log('e');
-displayView(2);
+// displayView(2);

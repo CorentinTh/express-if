@@ -1,6 +1,7 @@
 package expressif.client;
 
 import expressif.common.Message;
+import expressif.common.RoomList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
@@ -8,7 +9,10 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.concurrent.Worker.State;
 
+import javafx.util.Pair;
 import netscape.javascript.JSObject;
+
+import java.util.List;
 
 
 public class GUI extends Application {
@@ -41,15 +45,23 @@ public class GUI extends Application {
 
         Actions actions = new Actions() {
             public void addMessage(Message message) {
-                webEngine.executeScript("addMessage(" + message +")");
+                webEngine.executeScript("addMessage(" + message + ")");
             }
 
             public void removeUser(String pseudo) {
-                webEngine.executeScript("removeUser(" + pseudo +")");
+                webEngine.executeScript("removeUser(" + pseudo + ")");
             }
 
             public void addUser(String pseudo) {
-                webEngine.executeScript("addUser(" + pseudo +")");
+                webEngine.executeScript("addUser(" + pseudo + ")");
+            }
+
+            public void addRoomList(RoomList roomList) {
+                webEngine.executeScript("addRoomList(" + roomList + ")");
+            }
+
+            public void displayView(int view) {
+                webEngine.executeScript("displayView(" + view + ")");
             }
         };
 
@@ -68,14 +80,22 @@ public class GUI extends Application {
 
     public interface Listener {
         String onInit(String firstname, String lastname, String host, int port);
+
         String onJoinRoom(String roomName);
+
         void setActions(Actions actions);
     }
 
     public interface Actions {
         void addMessage(Message message);
+
         void removeUser(String pseudo);
+
         void addUser(String pseudo);
+
+        void addRoomList(RoomList roomList);
+
+        void displayView(int view);
     }
 
     public static void main(String[] args) {
