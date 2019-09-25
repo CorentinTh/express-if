@@ -68,6 +68,7 @@ public class GUI extends Application {
 
     public interface Listener {
         String onInit(String firstname, String lastname, String host, int port);
+        String onJoinRoom(String roomName);
         void setActions(Actions actions);
     }
 

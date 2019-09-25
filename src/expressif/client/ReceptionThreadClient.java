@@ -1,11 +1,13 @@
 package expressif.client;
 
+import expressif.common.Payload;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ReceptionThreadClient extends Thread{
-    private final Client client;
+public class ReceptionThreadClient extends Thread {
+    private Client client;
 
     public ReceptionThreadClient(Client client) {
         this.client = client;
@@ -13,11 +15,26 @@ public class ReceptionThreadClient extends Thread{
 
     @Override
     public void run() {
-        try{
+        try {
             ObjectInputStream inputStream = new ObjectInputStream(client.getSocket().getInputStream());
-            ObjectOutputStream  outputStream = new ObjectOutputStream(client.getSocket().getOutputStream());
+
+            while (true) {
+                Payload payload = (Payload) inputStream.readObject();
+
+                switch (payload.getTopic()){
+                    case LIST_ROOM:
+                        //payload.getContent();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
+
 }
