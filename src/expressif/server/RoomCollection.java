@@ -20,4 +20,9 @@ public class RoomCollection {
                 .findFirst()
                 .orElse(null);
     }
+
+	public List<Room> getRooms() {
+		return rooms;
+	}
+    
 }

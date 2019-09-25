@@ -1,9 +1,6 @@
 package expressif.server;
 
-import expressif.common.Message;
 import expressif.common.Payload;
-
-import java.io.ObjectInputStream;
 
 public class ReceptionThreadServer extends Thread {
     private Client client;
@@ -21,18 +18,44 @@ public class ReceptionThreadServer extends Thread {
 	        while (true){
 	        	Payload payload = (Payload) client.getSocIn().readObject();
 	        	switch (payload.getTopic()) {
-	        	case LOGIN:
-	        		client.setPseudo((String) payload.getContent());
-	        		break;
-	        	case JOIN_ROOM:
-	        		currentRoom = rooms.getRoom((String) payload.getContent());
-	        		currentRoom.joinRoom(client);
-	        		break;
-	        	case LEAVE_ROOM:
-	        		//if(currentRoom =! null){
-	        			currentRoom.leaveRoom(client);
-	        		//}
-	        		break;
+		        	case LOGIN:
+		        		client.setPseudo((String) payload.getContent());
+		        		break;
+		        	case JOIN_ROOM:
+		        		if (currentRoom != null){
+			        		currentRoom = rooms.getRoom((String) payload.getContent());
+			        		currentRoom.joinRoom(client);
+			        		payload.setContent(client.getPseudo());
+			        		currentRoom.sendData(payload);
+		        		} else {
+		        			System.out.println("On leave room, current room not set! Blame it on the dev!");
+		        		}
+		        		break;
+		        	case LEAVE_ROOM:
+		        		if (currentRoom != null){
+		        			currentRoom.leaveRoom(client);
+		        			payload.setContent(client.getPseudo());
+			        		currentRoom.sendData(payload);
+		        		} else {
+		        			System.out.println("On leave room, current room not set! Blame it on the dev!");
+		        		}
+		        		break;
+		        	case LIST_ROOM:
+		        		payload.setContent(rooms.getRooms());
+		        		client.sendData(payload);
+		        		break;
+		        	case IS_TYPING:
+		        		break;
+		        	case NEW_MESSAGE:
+		        		if (currentRoom != null){
+		        			currentRoom.sendData(payload);
+		        		} else {
+		        			System.out.println("On leave room, current room not set! Blame it on the dev!");
+		        		}
+		        		break;
+		        	case ROOM_INFO:
+		        		client.sendData(payload);
+		        		break;
 	        	}
 	            // TODO
 	            // if (reception "join room A") Room room = rooms.get('A'); room.join(client);

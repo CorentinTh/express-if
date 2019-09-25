@@ -1,27 +1,29 @@
 package expressif.server;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.PrintStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import expressif.common.Payload;
 
 public class Client {
     private Socket socket;
     private String pseudo;
     private ObjectInputStream socIn;
-    private PrintStream socOut;
+    private ObjectOutputStream socOut;
 
     public Client(Socket socket) throws IOException {
         this.socket = socket;
-        this.socIn = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-        this.socOut = new PrintStream(socket.getOutputStream());
+        this.socOut = new ObjectOutputStream(socket.getOutputStream());
     }
 
-    public void sendData(String topic, String payload) {
-        socOut.println(topic + " - " + payload);
+    public void sendData(Payload payload) {
+        try {
+			socOut.writeObject(payload);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
     }
 
 	public Socket getSocket() {
@@ -48,11 +50,11 @@ public class Client {
 		this.socIn = socIn;
 	}
 
-	public PrintStream getSocOut() {
+	public ObjectOutputStream getSocOut() {
 		return socOut;
 	}
 
-	public void setSocOut(PrintStream socOut) {
+	public void ObjectOutputStream(ObjectOutputStream socOut) {
 		this.socOut = socOut;
 	}
     
