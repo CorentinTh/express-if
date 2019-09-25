@@ -32,4 +32,10 @@ function displayView(id) {
     view3.className = 'pos' + (3 - id);
 }
 
-displayView(3);
+function joinRoom(roomName){
+    console.log('Joining room', roomName);
+    console.log(window.javaConnector.onJoinRoom(roomName));
+}
+
+console.log('e');
+displayView(2);
