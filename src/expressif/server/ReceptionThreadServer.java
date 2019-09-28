@@ -59,7 +59,7 @@ public class ReceptionThreadServer extends Thread {
 						break;
 					case NEW_MESSAGE:
 						if (currentRoom != null) {
-							currentRoom.sendData(new Payload(Payload.Topic.NEW_MESSAGE, new Message(client.getPseudo(),(String) payload.getContent(), LocalDateTime.now())));
+							currentRoom.sendMessage(new Message(client.getPseudo(),(String) payload.getContent(), LocalDateTime.now()));
 						} else {
 							System.out.println("On leave room, current room not set! Blame it on the dev!");
 						}
