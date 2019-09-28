@@ -1,8 +1,10 @@
 package expressif.client;
 
 import expressif.common.Message;
+import expressif.common.RoomInfo;
 import expressif.common.RoomList;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -25,6 +27,11 @@ public class GUI extends Application {
         stage.setTitle("Express'IF");
         this.listener = new Client();
 
+        stage.setOnCloseRequest(ev -> {
+            listener.onLeaveRoom();
+            System.exit(0);
+        });
+
         final WebView webView = new WebView();
         final Console console = new Console();
         webEngine = webView.getEngine();
@@ -45,23 +52,39 @@ public class GUI extends Application {
 
         Actions actions = new Actions() {
             public void addMessage(Message message) {
-                webEngine.executeScript("addMessage(" + message + ")");
+                Platform.runLater(() -> {
+                    webEngine.executeScript("addMessage(" + message + ")");
+                });
             }
 
             public void removeUser(String pseudo) {
-                webEngine.executeScript("removeUser(" + pseudo + ")");
+                Platform.runLater(() -> {
+                    webEngine.executeScript("removeUser('" + pseudo + "')");
+                });
             }
 
             public void addUser(String pseudo) {
-                webEngine.executeScript("addUser(" + pseudo + ")");
+                Platform.runLater(() -> {
+                    webEngine.executeScript("addUser('" + pseudo + "')");
+                });
             }
 
-            public void addRoomList(RoomList roomList) {
-                webEngine.executeScript("addRoomList(" + roomList + ")");
+            public void setRoomList(RoomList roomList) {
+                Platform.runLater(() -> {
+                    webEngine.executeScript("addRoomList(" + roomList + ")");
+                });
+            }
+
+            public void setRoomInfo(RoomInfo roomInfo) {
+                Platform.runLater(() -> {
+                    webEngine.executeScript("setRoomInfo(" + roomInfo + ")");
+                });
             }
 
             public void displayView(int view) {
-                webEngine.executeScript("displayView(" + view + ")");
+                Platform.runLater(() -> {
+                    webEngine.executeScript("displayView(" + view + ")");
+                });
             }
         };
 
@@ -83,7 +106,12 @@ public class GUI extends Application {
 
         String onJoinRoom(String roomName);
 
+        String onNewMessage(String content);
+
+        String onLeaveRoom();
+
         void setActions(Actions actions);
+
     }
 
     public interface Actions {
@@ -93,9 +121,11 @@ public class GUI extends Application {
 
         void addUser(String pseudo);
 
-        void addRoomList(RoomList roomList);
+        void setRoomList(RoomList roomList);
 
         void displayView(int view);
+
+        void setRoomInfo(RoomInfo roomInfo);
     }
 
     public static void main(String[] args) {

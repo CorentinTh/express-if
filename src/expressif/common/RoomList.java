@@ -3,10 +3,11 @@ package expressif.common;
 import expressif.server.Room;
 import javafx.util.Pair;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomList {
+public class RoomList implements Serializable {
     private List<Pair<String, Integer>> roomList = new ArrayList<Pair<String, Integer>>();
 
     public RoomList() {
@@ -25,9 +26,9 @@ public class RoomList {
         StringBuilder acc = new StringBuilder("[");
 
         for (Pair<String, Integer> pair : roomList) {
-            acc.append("{name: ");
+            acc.append("{name: '");
             acc.append(pair.getKey());
-            acc.append(", count: ");
+            acc.append("', count: ");
             acc.append(pair.getValue());
             acc.append("},");
         }

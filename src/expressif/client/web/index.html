@@ -48,25 +48,21 @@
 
 <div id="view3" class="pos2">
     <div class="menu">
-        <div class="leave-room"><i class="fa fa-arrow-left"></i></div>
+        <div class="leave-room" id="leave-room"><i class="fa fa-arrow-left"></i></div>
     </div>
     <div class="users">
-        .u
+        <h3>Personnes</h3>
+
+        <div id="user-list"></div>
     </div>
     <div class="chat">
-        <div class="name">Room 1</div>
-        <div class="message-list">
-            <div class="message">
-                <div class="user"><img src="https://api.adorable.io/avatars/285/fdssdds.png" alt=""></div>
-                <div class="content">qsdqsd</div>
-                <div class="date">05:56</div>
-            </div>
-        </div>
+        <div class="name" id="room-name">Room 1</div>
+        <div class="message-list" id="message-list"></div>
 
         <div class="text-area">
             <div class="button-input">
-                <input type="text" placeholder="Nouveau message ...">
-                <button><i class="fa fa-arrow-right"></i></button>
+                <input type="text" placeholder="Nouveau message ..." id="message-input">
+                <button id="message-send"><i class="fa fa-arrow-right"></i></button>
             </div>
         </div>
     </div>

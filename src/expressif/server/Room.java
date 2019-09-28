@@ -1,6 +1,7 @@
 package expressif.server;
 
 import expressif.common.Payload;
+import expressif.common.RoomInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,4 +31,21 @@ public class Room {
             client.sendData(payload);
         }
     }
+
+    public int getUserCount(){
+        return clients.size();
+    }
+
+    public RoomInfo getRoomInfo(){
+        RoomInfo ri = new RoomInfo(name);
+
+        for (Client client : clients) {
+            ri.addUserName(client.getPseudo());
+        }
+
+        // TODO history
+
+        return  ri;
+    }
+
 }

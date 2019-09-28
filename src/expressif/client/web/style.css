@@ -148,6 +148,7 @@ input:focus {
   width: 80px;
   background-color: #242f3d;
   height: 100%;
+  flex-shrink: 0;
 }
 #view3 .menu .leave-room {
   cursor: pointer;
@@ -163,8 +164,32 @@ input:focus {
 }
 #view3 .users {
   background-color: #2e4052;
-  width: 300px;
+  width: 225px;
   height: 100%;
+  flex-shrink: 0;
+}
+#view3 .users h3 {
+  color: #abbed4;
+  text-align: center;
+  font-size: 23px;
+  margin: 10px 0;
+}
+#view3 .users .user {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+#view3 .users .user .image {
+  width: 44px;
+  height: 44px;
+}
+#view3 .users .user .image img {
+  border-radius: 100px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
+}
+#view3 .users .user .pseudo {
+  padding-left: 15px;
+  color: #abbed4;
 }
 #view3 .chat {
   background-color: #f5f9fd;
@@ -172,6 +197,7 @@ input:focus {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 #view3 .chat .name {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
@@ -185,19 +211,28 @@ input:focus {
 #view3 .chat .message-list {
   flex-grow: 1;
   padding: 20px;
+  overflow: auto;
+  min-width: 0;
 }
 #view3 .chat .message-list .message {
   display: flex;
+  margin-bottom: 15px;
+  min-width: 0;
+}
+#view3 .chat .message-list .message > div {
+  min-width: 0;
 }
 #view3 .chat .message-list .message .user {
   width: 44px;
   height: 44px;
+  flex-shrink: 0;
 }
 #view3 .chat .message-list .message .user img {
   border-radius: 100px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
 }
 #view3 .chat .message-list .message .content {
+  overflow-wrap: break-word;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
   background-color: #ffffff;
   border-radius: 4px;
@@ -207,6 +242,7 @@ input:focus {
   font-size: 15px;
 }
 #view3 .chat .message-list .message .date {
+  flex-shrink: 0;
   font-size: 15px;
   color: #abbed4;
 }
@@ -217,8 +253,8 @@ input:focus {
 }
 #view3 .chat .text-area button {
   background-color: transparent !important;
-  color: #abbed4 !important;
   font-size: 15px;
+  color: #abbed4 !important;
 }
 #view3 .chat .text-area button:hover {
   color: #495a77 !important;
@@ -228,5 +264,4 @@ input:focus {
   margin: 0;
   border: none;
   border-radius: 0;
-  color: #abbed4 !important;
 }

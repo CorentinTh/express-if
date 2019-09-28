@@ -10,8 +10,10 @@ public class Server {
         int port = 4242;
         RoomCollection rooms = new RoomCollection();
 
-        rooms.add(new Room("test-room-1"));
-        rooms.add(new Room("test-room-2"));
+        rooms.add(new Room("Divers"));
+        rooms.add(new Room("4IFA"));
+        rooms.add(new Room("Rencontre +40ans"));
+        rooms.add(new Room("G@merz 4 life"));
 
         if (args.length == 1) {
             port = Integer.parseInt(args[0]);

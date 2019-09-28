@@ -186,6 +186,7 @@ input:focus {
     width: 80px;
     background-color: #242f3d;
     height: 100%;
+    flex-shrink: 0;
 
     .leave-room {
       cursor: pointer;
@@ -204,8 +205,39 @@ input:focus {
 
   .users {
     background-color: #2e4052;
-    width: 300px;
+    width: 225px;
     height: 100%;
+    flex-shrink: 0;
+
+
+    h3 {
+      color: #abbed4;
+      text-align: center;
+      font-size: 23px;
+      margin: 10px 0;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+
+      padding: 10px;
+
+      .image {
+        width: 44px;
+        height: 44px;
+
+        img {
+          border-radius: 100px;
+          box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
+        }
+      }
+
+      .pseudo {
+        padding-left: 15px;
+        color: #abbed4;
+      }
+    }
   }
 
   .chat {
@@ -214,6 +246,7 @@ input:focus {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 
     .name {
       box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
@@ -228,19 +261,33 @@ input:focus {
     .message-list {
       flex-grow: 1;
       padding: 20px;
-      .message{
-        display: flex;
+      overflow: auto;
+      min-width: 0;
 
-        .user{
+
+      .message {
+        display: flex;
+        margin-bottom: 15px;
+        min-width: 0;
+
+        & > div{
+          min-width: 0;
+        }
+
+        .user {
           width: 44px;
           height: 44px;
-          img{
+          flex-shrink: 0;
+
+          img {
             border-radius: 100px;
             box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
 
           }
         }
-        .content{
+
+        .content {
+          overflow-wrap: break-word;
           box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
           background-color: #ffffff;
           border-radius: 4px;
@@ -250,7 +297,8 @@ input:focus {
           font-size: 15px;
         }
 
-        .date{
+        .date {
+          flex-shrink: 0;
           font-size: 15px;
           color: #abbed4;
         }
@@ -264,9 +312,10 @@ input:focus {
 
       button {
         background-color: transparent !important;
-        color: #abbed4 !important;
         font-size: 15px;
-        &:hover{
+        color: #abbed4 !important;
+
+        &:hover {
           color: #495a77 !important;
         }
       }
@@ -275,8 +324,6 @@ input:focus {
         margin: 0;
         border: none;
         border-radius: 0;
-        color: #abbed4 !important;
-
       }
     }
   }
