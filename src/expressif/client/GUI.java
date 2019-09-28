@@ -53,7 +53,7 @@ public class GUI extends Application {
         Actions actions = new Actions() {
             public void addMessage(Message message) {
                 Platform.runLater(() -> {
-                    webEngine.executeScript("addMessage(" + message + ")");
+                    webEngine.executeScript("addMessage(" + message.toJson() + ")");
                 });
             }
 
@@ -71,13 +71,13 @@ public class GUI extends Application {
 
             public void setRoomList(RoomList roomList) {
                 Platform.runLater(() -> {
-                    webEngine.executeScript("addRoomList(" + roomList + ")");
+                    webEngine.executeScript("addRoomList(" + roomList.toJson() + ")");
                 });
             }
 
             public void setRoomInfo(RoomInfo roomInfo) {
                 Platform.runLater(() -> {
-                    webEngine.executeScript("setRoomInfo(" + roomInfo + ")");
+                    webEngine.executeScript("setRoomInfo(" + roomInfo.toJson() + ")");
                 });
             }
 

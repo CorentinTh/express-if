@@ -10,10 +10,11 @@ import java.util.List;
 public class Room {
     private String name;
     private List<Client> clients = new ArrayList<>();
-    private History history = new VolatileHistory();
+    private History history;
 
     public Room(String name) {
         this.name = name;
+        this.history = new LocalStorageHistory(name);
     }
 
     public String getName() {

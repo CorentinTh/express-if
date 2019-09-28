@@ -23,8 +23,7 @@ public class RoomInfo implements Serializable {
         this.history = history;
     }
 
-    @Override
-    public String toString() {
+    public String toJson() {
         StringBuilder acc = new StringBuilder("{");
 
         acc.append("name: '");
@@ -32,7 +31,7 @@ public class RoomInfo implements Serializable {
         acc.append("', history: [");
 
         for (Message message : history) {
-            acc.append(message);
+            acc.append(message.toJson());
             acc.append(",");
         }
 

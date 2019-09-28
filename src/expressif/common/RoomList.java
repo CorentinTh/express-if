@@ -21,8 +21,7 @@ public class RoomList implements Serializable {
         return roomList;
     }
 
-    @Override
-    public String toString() {
+    public String toJson() {
         StringBuilder acc = new StringBuilder("[");
 
         for (Pair<String, Integer> pair : roomList) {
