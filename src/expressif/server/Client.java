@@ -16,6 +16,7 @@ public class Client {
     public Client(Socket socket) throws IOException {
         this.socket = socket;
         this.socOut = new ObjectOutputStream(socket.getOutputStream());
+        this.socIn = new ObjectInputStream(socket.getInputStream());
     }
 
     public void sendData(Payload payload) {
@@ -23,6 +24,7 @@ public class Client {
 			socOut.writeObject(payload);
 		} catch (IOException e) {
 			System.out.println(e);
+			e.printStackTrace();
 		}
     }
 

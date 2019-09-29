@@ -1,10 +1,11 @@
 package expressif.client;
 
+import expressif.common.Message;
 import expressif.common.Payload;
+import expressif.common.RoomInfo;
+import expressif.common.RoomList;
 
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 public class ReceptionThreadClient extends Thread {
     private Client client;
@@ -21,9 +22,34 @@ public class ReceptionThreadClient extends Thread {
             while (true) {
                 Payload payload = (Payload) inputStream.readObject();
 
-                switch (payload.getTopic()){
+                System.out.println("[new payload] " + payload.getTopic().toString() + " " + payload.getContent());
+
+                switch (payload.getTopic()) {
                     case LIST_ROOM:
-                        //payload.getContent();
+                        synchronized (this){
+                            RoomList roomList = (RoomList) payload.getContent();
+                            client.getGuiActions().setRoomList(roomList);
+                        }
+                        break;
+                    case ROOM_INFO:
+                        synchronized (this){
+                            RoomInfo roomInfo = (RoomInfo) payload.getContent();
+                            client.getGuiActions().setRoomInfo(roomInfo);
+                        }
+                        break;
+
+                    case NEW_MESSAGE:
+                        synchronized (this) {
+                            Message message = (Message) payload.getContent();
+                            System.out.println(message);
+                            client.getGuiActions().addMessage(message);
+                        }
+                        break;
+                    case JOIN_ROOM:
+                        client.getGuiActions().addUser((String) payload.getContent());
+                        break;
+                    case LEAVE_ROOM:
+                        client.getGuiActions().removeUser((String) payload.getContent());
                         break;
                     default:
                         break;

@@ -1,15 +1,18 @@
 package expressif.client;
 
+import expressif.common.Message;
+import expressif.common.Payload;
+import expressif.common.RoomList;
+import javafx.application.Platform;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import static javafx.application.Application.launch;
-
 public class Client implements GUI.Listener {
-    ReceptionThreadClient socketThread;
-    GUI.Actions guiActions;
-    Socket socket;
+    private GUI.Actions guiActions;
+    private Socket socket;
+    ObjectOutputStream outputStream;
 
     public Socket getSocket() {
         return socket;
@@ -18,13 +21,13 @@ public class Client implements GUI.Listener {
     public Client() {
     }
 
-    private void setupConnection(String host, int port){
+    private void setupConnection(String host, int port) {
         try {
             socket = new Socket(host, port);
-
-            socketThread = new ReceptionThreadClient(this);
-            socketThread.start();
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            new ReceptionThreadClient(this).start();
         } catch (UnknownHostException e) {
+            System.out.println("Unknown host");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,16 +37,37 @@ public class Client implements GUI.Listener {
     @Override
     public String onInit(String firstname, String lastname, String host, int port) {
         setupConnection(host, port);
+        emit(new Payload(Payload.Topic.LOGIN, firstname + " " + lastname));
+        this.guiActions.displayView(2);
 
-        // TODO: emit
         return "ok";
+    }
+
+    public GUI.Actions getGuiActions() {
+        return guiActions;
     }
 
     @Override
     public String onJoinRoom(String roomName) {
-        System.out.println("HEREE" + roomName);
 
-        // TODO: emit
+        emit(new Payload(Payload.Topic.JOIN_ROOM, roomName));
+        this.guiActions.displayView(3);
+
+        return "ok";
+    }
+
+    @Override
+    public String onNewMessage(String content) {
+        emit(new Payload(Payload.Topic.NEW_MESSAGE, content));
+
+        return "ok";
+    }
+
+    @Override
+    public String onLeaveRoom() {
+        emit(new Payload(Payload.Topic.LEAVE_ROOM));
+        this.guiActions.displayView(2);
+
         return "ok";
     }
 
@@ -52,7 +76,13 @@ public class Client implements GUI.Listener {
         this.guiActions = actions;
     }
 
-    void emit(){
-
+    void emit(Payload payload) {
+        try {
+            outputStream.writeObject(payload);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
 }
