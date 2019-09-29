@@ -5,11 +5,9 @@ import java.util.List;
 import expressif.common.Message;
 
 public interface History {
-	
-	public List<Message> getHistoryOfRoom(String nomRoom);
-	
-	public void addRoom(String nomRoom);
-	
-	public void addMessage(String nomRoom, Message message);
+
+    public List<Message> getHistory();
+
+    public void addMessage(Message message);
 
 }
