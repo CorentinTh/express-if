@@ -18,60 +18,61 @@ public class Room {
     private History history;
     private InetAddress groupAdress;
     private int groupPort;
-    private MulticastSocket s;
+    private MulticastSocket multiCastSocket;
 
     public Room(String name) {
         this.name = name;
         this.history = new LocalStorageHistory(name);
     }
     
-//    public Room(String name, String inetAddr, int groupPort) throws UnknownHostException{
-//        this.name = name;
-//        this.history = new LocalStorageHistory(name);
-//        this.groupAdress = InetAddress.getByName(inetAddr);
-//        this.groupPort = groupPort;
-//		  this.s =  new MulticastSocket(groupPort);
-//    }
+    public Room(String name, String inetAddr, int groupPort) throws IOException{
+        this.name = name;
+        this.history = new LocalStorageHistory(name);
+        this.groupAdress = InetAddress.getByName(inetAddr);
+        this.groupPort = groupPort;
+		this.multiCastSocket =  new MulticastSocket(groupPort);
+    }
 
     public String getName() {
         return name;
     }
 
     public void joinRoom(Client client) {
-//    	try {
-//			s.joinGroup(this.groupAdress);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+    	try {
+    		multiCastSocket.joinGroup(this.groupAdress);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         clients.add(client);
     }
 
     public void leaveRoom(Client client) {
-//    	try {
-//			s.leaveGroup(groupAdress);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+    	try {
+    		multiCastSocket.leaveGroup(groupAdress);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         clients.remove(client);
     }
 
     public void sendMessage(Message message){
         sendData(new Payload(Payload.Topic.NEW_MESSAGE, message));
-//        DatagramPacket dataMessage = new DatagramPacket(message.getContent().getBytes(), message.getContent().length(), this.groupAdress, this.groupPort);
-//        try {
-//			s.send(dataMessage);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
         history.addMessage(message);
     }
 
     public void sendData(Payload payload) {
-        for (Client client : clients) {
-            client.sendData(payload);
-        }
+//        for (Client client : clients) {
+//            client.sendData(payload);
+//        }
+    	 String toSend = payload.toString();
+    	 DatagramPacket dataMessage = new DatagramPacket(toSend.getBytes(), toSend.length(), this.groupAdress, this.groupPort);
+         try {
+         	multiCastSocket.send(dataMessage);
+ 		} catch (IOException e) {
+ 			e.printStackTrace();
+ 		}
     }
 
     public int getUserCount(){

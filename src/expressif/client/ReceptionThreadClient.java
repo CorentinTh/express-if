@@ -20,6 +20,8 @@ public class ReceptionThreadClient extends Thread {
             ObjectInputStream inputStream = new ObjectInputStream(client.getSocket().getInputStream());
 
             while (true) {
+            	//TODO je sais pas comment faire, désolée...
+               // Payload payload = (Payload) fromString(inputStream.readObject());
                 Payload payload = (Payload) inputStream.readObject();
 
                 System.out.println("[new payload] " + payload.getTopic().toString() + " " + payload.getContent());
@@ -38,21 +40,21 @@ public class ReceptionThreadClient extends Thread {
                         }
                         break;
 
-                    case NEW_MESSAGE:
-                        synchronized (this) {
-                            Message message = (Message) payload.getContent();
-                            System.out.println(message);
-                            client.getGuiActions().addMessage(message);
-                        }
-                        break;
-                    case JOIN_ROOM:
-                        client.getGuiActions().addUser((String) payload.getContent());
-                        break;
-                    case LEAVE_ROOM:
-                        client.getGuiActions().removeUser((String) payload.getContent());
-                        break;
-                    default:
-                        break;
+//                    case NEW_MESSAGE:
+//                        synchronized (this) {
+//                            Message message = (Message) payload.getContent();
+//                            System.out.println(message);
+//                            client.getGuiActions().addMessage(message);
+//                        }
+//                        break;
+//                    case JOIN_ROOM:
+//                        client.getGuiActions().addUser((String) payload.getContent());
+//                        break;
+//                    case LEAVE_ROOM:
+//                        client.getGuiActions().removeUser((String) payload.getContent());
+//                        break;
+//                    default:
+//                        break;
                 }
             }
 

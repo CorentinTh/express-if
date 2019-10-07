@@ -6,16 +6,18 @@ import expressif.common.RoomList;
 import javafx.application.Platform;
 
 import java.io.*;
+import java.net.MulticastSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client implements GUI.Listener {
     private GUI.Actions guiActions;
-    private Socket socket;
+    private Socket papSocket;
+    private MulticastSocket multicastSocket;
     ObjectOutputStream outputStream;
 
     public Socket getSocket() {
-        return socket;
+        return papSocket;
     }
 
     public Client() {
@@ -23,9 +25,12 @@ public class Client implements GUI.Listener {
 
     private void setupConnection(String host, int port) {
         try {
-            socket = new Socket(host, port);
-            outputStream = new ObjectOutputStream(socket.getOutputStream());
+        	papSocket = new Socket(host, port);
+            outputStream = new ObjectOutputStream(papSocket.getOutputStream());
             new ReceptionThreadClient(this).start();
+            //TODO pas sûre de comment l'initialiser
+            multicastSocket = new MulticastSocket();
+            new MulticastReceptionThreadClient(this).start();
         } catch (UnknownHostException e) {
             System.out.println("Unknown host");
             e.printStackTrace();
