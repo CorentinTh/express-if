@@ -3,6 +3,7 @@ package expressif.common;
 import expressif.server.Client;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,24 @@ public class RoomInfo implements Serializable {
     private List<Message> history = new ArrayList<>();
     private List<String> users = new ArrayList<String>();
     private String name;
+    private InetAddress address;
+    private int port;
+
+    public InetAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(InetAddress address) {
+        this.address = address;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 
     public RoomInfo(String name) {
         this.name = name;
@@ -30,9 +49,11 @@ public class RoomInfo implements Serializable {
         acc.append(name);
         acc.append("', history: [");
 
-        for (Message message : history) {
-            acc.append(message.toJson());
-            acc.append(",");
+        if(history !=null){
+            for (Message message : history) {
+                acc.append(message.toJson());
+                acc.append(",");
+            }
         }
 
         acc.append("], users: [");

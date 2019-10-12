@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>react-if</groupId>
-    <artifactId>react-if</artifactId>
+    <groupId>express-if</groupId>
+    <artifactId>express-if</artifactId>
     <version>1.0</version>
 
     <properties>

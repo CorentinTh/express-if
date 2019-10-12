@@ -1,17 +1,20 @@
 package expressif.client;
 
-import expressif.common.Message;
 import expressif.common.Payload;
-import expressif.common.RoomList;
-import javafx.application.Platform;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client implements GUI.Listener {
     private GUI.Actions guiActions;
+
+    public MulticastSocket getMulticastSocket() {
+        return multicastSocket;
+    }
+
     private Socket papSocket;
     private MulticastSocket multicastSocket;
     ObjectOutputStream outputStream;
@@ -23,17 +26,23 @@ public class Client implements GUI.Listener {
     public Client() {
     }
 
-    private void setupConnection(String host, int port) {
+    private void setupPAPConnection(String host, int port) {
         try {
-        	papSocket = new Socket(host, port);
+            papSocket = new Socket(host, port);
             outputStream = new ObjectOutputStream(papSocket.getOutputStream());
             new ReceptionThreadClient(this).start();
-            //TODO pas sûre de comment l'initialiser
-            multicastSocket = new MulticastSocket();
-            new MulticastReceptionThreadClient(this).start();
-        } catch (UnknownHostException e) {
+
+        } catch (Exception e) {
             System.out.println("Unknown host");
             e.printStackTrace();
+        }
+    }
+
+    public void setupMCConnection(InetAddress address, int port) {
+        try {
+            multicastSocket = new MulticastSocket(port);
+            multicastSocket.joinGroup(address);
+            new MulticastReceptionThreadClient(this).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +50,7 @@ public class Client implements GUI.Listener {
 
     @Override
     public String onInit(String firstname, String lastname, String host, int port) {
-        setupConnection(host, port);
+        setupPAPConnection(host, port);
         emit(new Payload(Payload.Topic.LOGIN, firstname + " " + lastname));
         this.guiActions.displayView(2);
 
@@ -54,6 +63,7 @@ public class Client implements GUI.Listener {
 
     @Override
     public String onJoinRoom(String roomName) {
+
 
         emit(new Payload(Payload.Topic.JOIN_ROOM, roomName));
         this.guiActions.displayView(3);

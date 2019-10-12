@@ -20,22 +20,24 @@ public class ReceptionThreadClient extends Thread {
             ObjectInputStream inputStream = new ObjectInputStream(client.getSocket().getInputStream());
 
             while (true) {
-            	//TODO je sais pas comment faire, désolée...
-               // Payload payload = (Payload) fromString(inputStream.readObject());
+                //TODO je sais pas comment faire, dï¿½solï¿½e...
+                // Payload payload = (Payload) fromString(inputStream.readObject());
                 Payload payload = (Payload) inputStream.readObject();
 
                 System.out.println("[new payload] " + payload.getTopic().toString() + " " + payload.getContent());
 
                 switch (payload.getTopic()) {
                     case LIST_ROOM:
-                        synchronized (this){
+                        synchronized (this) {
                             RoomList roomList = (RoomList) payload.getContent();
                             client.getGuiActions().setRoomList(roomList);
                         }
                         break;
                     case ROOM_INFO:
-                        synchronized (this){
+                        synchronized (this) {
                             RoomInfo roomInfo = (RoomInfo) payload.getContent();
+                            System.out.println(roomInfo);
+                            client.setupMCConnection(roomInfo.getAddress(), roomInfo.getPort());
                             client.getGuiActions().setRoomInfo(roomInfo);
                         }
                         break;

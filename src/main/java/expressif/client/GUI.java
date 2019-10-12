@@ -15,6 +15,7 @@ import javafx.util.Pair;
 import netscape.javascript.JSObject;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class GUI extends Application {
@@ -37,7 +38,9 @@ public class GUI extends Application {
         webEngine = webView.getEngine();
 
         webEngine.setJavaScriptEnabled(true);
-        webEngine.load(getClass().getResource("web/index.html").toExternalForm());
+//        System.out.println(getClass().getClassLoader().getResource("web/index.html"));
+
+        webEngine.load(Objects.requireNonNull(getClass().getClassLoader().getResource("web/index.html")).toExternalForm());
         webEngine.getLoadWorker().stateProperty().addListener((observableValue, oldState, newState) -> {
             if (newState == State.SUCCEEDED) {
                 JSObject windowDom = (JSObject) webEngine.executeScript("window");
