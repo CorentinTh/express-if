@@ -1,7 +1,9 @@
 package expressif.server;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.MulticastSocket;
 
 public class Server {
 
@@ -10,15 +12,20 @@ public class Server {
         int port = 4242;
         RoomCollection rooms = new RoomCollection();
 
-        rooms.add(new Room("test-room-1"));
-        rooms.add(new Room("test-room-2"));
-
         if (args.length == 1) {
             port = Integer.parseInt(args[0]);
         }
 
+
         try {
+            int roomIp = 12;
             listenSocket = new ServerSocket(port);
+
+            rooms.add(new Room("Divers", "239.255.12." + String.valueOf(roomIp++), port));
+            rooms.add(new Room("4IFA", "239.255.12." + String.valueOf(roomIp++), port));
+            rooms.add(new Room("Rencontre +40ans", "239.255.12." + String.valueOf(roomIp++), port));
+            rooms.add(new Room("G@merz 4 life", "239.255.12." + String.valueOf(roomIp), port));
+
             System.out.println("Server started on port: " + port);
 
             while (true) {
