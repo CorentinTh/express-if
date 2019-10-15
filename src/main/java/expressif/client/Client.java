@@ -1,12 +1,11 @@
 package expressif.client;
 
+import expressif.common.Message;
 import expressif.common.Payload;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
+import java.time.LocalDateTime;
 
 public class Client implements GUI.Listener {
     private GUI.Actions guiActions;
@@ -18,6 +17,9 @@ public class Client implements GUI.Listener {
     private Socket papSocket;
     private MulticastSocket multicastSocket;
     ObjectOutputStream outputStream;
+    InetAddress multicastAddress;
+    int multicastPort;
+    String pseudo;
 
     public Socket getSocket() {
         return papSocket;
@@ -40,6 +42,8 @@ public class Client implements GUI.Listener {
 
     public void setupMCConnection(InetAddress address, int port) {
         try {
+            multicastAddress = address;
+            multicastPort = port;
             multicastSocket = new MulticastSocket(port);
             multicastSocket.joinGroup(address);
             new MulticastReceptionThreadClient(this).start();
@@ -51,7 +55,8 @@ public class Client implements GUI.Listener {
     @Override
     public String onInit(String firstname, String lastname, String host, int port) {
         setupPAPConnection(host, port);
-        emit(new Payload(Payload.Topic.LOGIN, firstname + " " + lastname));
+        pseudo = firstname + " " + lastname;
+        emitToPaP(new Payload(Payload.Topic.LOGIN, pseudo));
         this.guiActions.displayView(2);
 
         return "ok";
@@ -64,8 +69,8 @@ public class Client implements GUI.Listener {
     @Override
     public String onJoinRoom(String roomName) {
 
-
-        emit(new Payload(Payload.Topic.JOIN_ROOM, roomName));
+        emitToPaP(new Payload(Payload.Topic.JOIN_ROOM, roomName));
+//        emitToMultiCast(new Payload(Payload.Topic.JOIN_ROOM, roomName));
         this.guiActions.displayView(3);
 
         return "ok";
@@ -73,14 +78,16 @@ public class Client implements GUI.Listener {
 
     @Override
     public String onNewMessage(String content) {
-        emit(new Payload(Payload.Topic.NEW_MESSAGE, content));
+//        emitToPaP(new Payload(Payload.Topic.NEW_MESSAGE, content));
+        emitToMultiCast(new Payload(Payload.Topic.NEW_MESSAGE, new Message(pseudo, content, LocalDateTime.now())));
 
         return "ok";
     }
 
     @Override
     public String onLeaveRoom() {
-        emit(new Payload(Payload.Topic.LEAVE_ROOM));
+//        emitToPaP(new Payload(Payload.Topic.LEAVE_ROOM));
+        emitToMultiCast(new Payload(Payload.Topic.LEAVE_ROOM));
         this.guiActions.displayView(2);
 
         return "ok";
@@ -91,7 +98,16 @@ public class Client implements GUI.Listener {
         this.guiActions = actions;
     }
 
-    void emit(Payload payload) {
+    void emitToMultiCast(Payload payload){
+        try {
+            byte[] data = payload.toString().getBytes();
+            multicastSocket.send(new DatagramPacket(data, data.length, multicastAddress, multicastPort));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    void emitToPaP(Payload payload) {
         try {
             outputStream.writeObject(payload);
         } catch (IOException e) {
@@ -100,4 +116,7 @@ public class Client implements GUI.Listener {
     }
 
 
+    public String getPseudo() {
+        return pseudo;
+    }
 }

@@ -39,6 +39,7 @@ public class ReceptionThreadClient extends Thread {
                             System.out.println(roomInfo);
                             client.setupMCConnection(roomInfo.getAddress(), roomInfo.getPort());
                             client.getGuiActions().setRoomInfo(roomInfo);
+                            client.emitToMultiCast(new Payload(Payload.Topic.JOIN_ROOM, client.getPseudo()));
                         }
                         break;
 

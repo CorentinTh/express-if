@@ -34,36 +34,36 @@ public class ReceptionThreadServer extends Thread {
 
 						if (currentRoom != null) {
 							currentRoom.joinRoom(client);
-							payload.setContent(client.getPseudo());
-							currentRoom.sendData(payload);
-
+//							payload.setContent(client.getPseudo());
+//							currentRoom.sendData(payload);
+//
 							client.sendData(new Payload(Payload.Topic.ROOM_INFO, currentRoom.getRoomInfo()));
 						} else {
 							System.out.println("On JOIN_ROOM, current room not set! Blame it on the dev!");
 						}
 						break;
-					case LEAVE_ROOM:
-						if (currentRoom != null) {
-							currentRoom.leaveRoom(client);
-							payload.setContent(client.getPseudo());
-							currentRoom.sendData(payload);
-						} else {
-							System.out.println("On leave room, current room not set! Blame it on the dev!");
-						}
-						break;
+//					case LEAVE_ROOM:
+//						if (currentRoom != null) {
+//							currentRoom.leaveRoom(client);
+//							payload.setContent(client.getPseudo());
+//							currentRoom.sendData(payload);
+//						} else {
+//							System.out.println("On leave room, current room not set! Blame it on the dev!");
+//						}
+//						break;
 					case LIST_ROOM:
 						payload.setContent(rooms.getRoomList());
 						client.sendData(payload);
 						break;
 					case IS_TYPING:
 						break;
-					case NEW_MESSAGE:
-						if (currentRoom != null) {
-							currentRoom.sendMessage(new Message(client.getPseudo(),(String) payload.getContent(), LocalDateTime.now()));
-						} else {
-							System.out.println("On leave room, current room not set! Blame it on the dev!");
-						}
-						break;
+//					case NEW_MESSAGE:
+//						if (currentRoom != null) {
+//							currentRoom.sendMessage(new Message(client.getPseudo(),(String) payload.getContent(), LocalDateTime.now()));
+//						} else {
+//							System.out.println("On leave room, current room not set! Blame it on the dev!");
+//						}
+//						break;
 					case ROOM_INFO:
 						if (currentRoom != null) {
 							payload.setContent(currentRoom.getRoomInfo());
@@ -75,6 +75,7 @@ public class ReceptionThreadServer extends Thread {
 				// if (reception "join room A") Room room = rooms.get('A'); room.join(client);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (currentRoom != null) {
 				currentRoom.leaveRoom(client);
 				currentRoom.sendData(new Payload(Payload.Topic.LEAVE_ROOM, client.getPseudo()));

@@ -34,6 +34,7 @@ public class MulticastReceptionThreadClient extends Thread {
                 switch (payload.getTopic()) {
                     case NEW_MESSAGE:
                         synchronized (this) {
+                            System.out.println(payload.getContent());
                             Message message = (Message) payload.getContent();
                             System.out.println(message);
                             client.getGuiActions().addMessage(message);
