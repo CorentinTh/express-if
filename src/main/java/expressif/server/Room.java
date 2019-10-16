@@ -34,17 +34,18 @@ public class Room {
         this.groupAddress = InetAddress.getByName(inetAddr);
         this.groupPort = groupPort;
 
+        multiCastSocket = new MulticastSocket(groupPort);
+        multiCastSocket.joinGroup(groupAddress);
         Room room = this;
 
         new Thread(() -> {
             try {
-                MulticastSocket socket = new MulticastSocket(groupPort);
-                socket.joinGroup(groupAddress);
+
 
                 while (true){
                     byte[] buf = new byte[10240];
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
-                    socket.receive(packet);
+                    multiCastSocket.receive(packet);
                     String received = new String(packet.getData(), 0, packet.getLength());
                     Payload payload = Payload.fromString(received);
 
@@ -72,7 +73,7 @@ public class Room {
     }
 
     public void leaveRoom(Client client) {
-
+        System.out.println("LEAVE ROOM ---------2");
         clients.remove(client);
     }
 

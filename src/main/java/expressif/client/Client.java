@@ -87,7 +87,7 @@ public class Client implements GUI.Listener {
     @Override
     public String onLeaveRoom() {
 //        emitToPaP(new Payload(Payload.Topic.LEAVE_ROOM));
-        emitToMultiCast(new Payload(Payload.Topic.LEAVE_ROOM));
+        emitToMultiCast(new Payload(Payload.Topic.LEAVE_ROOM, pseudo));
         this.guiActions.displayView(2);
 
         return "ok";
