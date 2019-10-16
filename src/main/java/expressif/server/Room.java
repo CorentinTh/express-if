@@ -33,6 +33,34 @@ public class Room {
         this.history = new LocalStorageHistory(name);
         this.groupAddress = InetAddress.getByName(inetAddr);
         this.groupPort = groupPort;
+
+        multiCastSocket = new MulticastSocket(groupPort);
+        multiCastSocket.joinGroup(groupAddress);
+        Room room = this;
+
+        new Thread(() -> {
+            try {
+
+                while (true){
+                    byte[] buf = new byte[10240];
+                    DatagramPacket packet = new DatagramPacket(buf, buf.length);
+                    multiCastSocket.receive(packet);
+                    String received = new String(packet.getData(), 0, packet.getLength());
+                    Payload payload = Payload.fromString(received);
+
+                    if(payload.getTopic() == Payload.Topic.NEW_MESSAGE){
+                        System.out.println("New Message");
+                        room.addMessage((Message) payload.getContent());
+                    }
+                }
+
+
+            } catch (IOException e) {
+
+            }
+        }).start();
+
+
     }
 
     public String getName() {
@@ -40,27 +68,20 @@ public class Room {
     }
 
     public void joinRoom(Client client) {
-        try {
-            multiCastSocket.joinGroup(this.groupAddress);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         clients.add(client);
     }
 
     public void leaveRoom(Client client) {
-        try {
-            multiCastSocket.leaveGroup(groupAddress);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        System.out.println("LEAVE ROOM ---------2");
         clients.remove(client);
     }
 
     public void sendMessage(Message message) {
         sendData(new Payload(Payload.Topic.NEW_MESSAGE, message));
+        history.addMessage(message);
+    }
+
+    public void addMessage(Message message){
         history.addMessage(message);
     }
 

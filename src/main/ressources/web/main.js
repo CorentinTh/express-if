@@ -60,7 +60,6 @@ function removeUser(name) {
     try {
         document.querySelector(`#user-list .user[data-name="${name}"]`).remove();
     } catch (e) {
-        console.log(e);
     }
 }
 
@@ -103,6 +102,8 @@ loginFormEl.onsubmit = (e) => {
 
 leaveRoomEl.onclick = () => {
     console.log('onLeave cliked');
+    messageListEl.innerHTML = '';
+    userListEl.innerHTML = '';
     console.log(window.javaConnector.onLeaveRoom());
 };
 

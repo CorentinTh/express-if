@@ -31,7 +31,7 @@ public class LocalStorageHistory implements History {
 
             return messages;
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
 
         return null;
