@@ -88,6 +88,13 @@ public class Client implements GUI.Listener {
     public String onLeaveRoom() {
 //        emitToPaP(new Payload(Payload.Topic.LEAVE_ROOM));
         emitToMultiCast(new Payload(Payload.Topic.LEAVE_ROOM, pseudo));
+
+        try {
+            multicastSocket.leaveGroup(multicastAddress);
+            multicastSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.guiActions.displayView(2);
 
         return "ok";

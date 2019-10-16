@@ -41,7 +41,6 @@ public class Room {
         new Thread(() -> {
             try {
 
-
                 while (true){
                     byte[] buf = new byte[10240];
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);

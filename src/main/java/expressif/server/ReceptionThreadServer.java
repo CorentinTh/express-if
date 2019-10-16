@@ -57,9 +57,8 @@ public class ReceptionThreadServer extends Thread {
 				// if (reception "join room A") Room room = rooms.get('A'); room.join(client);
 			}
 		} catch (Exception e) {
-			System.out.println("LEAVE ROOM ---------");
+			System.out.println("hard leaving");
 
-			e.printStackTrace();
 			if (currentRoom != null) {
 				currentRoom.leaveRoom(client);
 				currentRoom.sendData(new Payload(Payload.Topic.LEAVE_ROOM, client.getPseudo()));
